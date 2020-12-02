@@ -33,6 +33,7 @@ import { createAccessbilityProps, getItemId } from './createAccessbilityProps';
 import { autosuggest, AutosuggestTranslations } from '../../translations/en';
 
 import * as styleRefs from './Autosuggest.treat';
+import { IconAdd, IconBookmark } from '../icons';
 
 type SuggestionMatch = Array<{ start: number; end: number }>;
 
@@ -138,7 +139,12 @@ function SuggestionItem({
         paddingX="small"
         paddingRight={onClear ? 'none' : undefined}
       >
-        <Box className={useTouchableSpace('standard')}>
+        <Box
+          className={useTouchableSpace('standard')}
+          display="flex"
+          alignItems="center"
+        >
+          {suggestion.type ? <IconBookmark /> : <IconAdd />}
           <Text baseline={false}>
             {suggestionParts.map(({ highlight, text }, index) =>
               selected || highlight ? (
@@ -376,7 +382,7 @@ export const Autosuggest = forwardRef(function <Value>(
       case INPUT_BLUR: {
         return {
           ...state,
-          isOpen: false,
+          isOpen: true,
           previewValue: null,
           highlightedIndex: null,
           isFocused: false,
@@ -387,7 +393,7 @@ export const Autosuggest = forwardRef(function <Value>(
         if (value.text) {
           return {
             ...state,
-            isOpen: false,
+            isOpen: true,
             previewValue: null,
             highlightedIndex: null,
           };
