@@ -33,7 +33,12 @@ import { createAccessbilityProps, getItemId } from './createAccessbilityProps';
 import { autosuggest, AutosuggestTranslations } from '../../translations/en';
 
 import * as styleRefs from './Autosuggest.treat';
-import { IconAdd, IconBookmark } from '../icons';
+import {
+  IconCompany,
+  IconLocation,
+  IconMoney,
+  IconPeople,
+} from '../icons';
 
 type SuggestionMatch = Array<{ start: number; end: number }>;
 
@@ -91,6 +96,22 @@ interface AutosuggestState<Value> {
   isFocused: boolean;
 }
 
+const getSuggtionIcon = ({ type = '' } = {}) => {
+  switch (type) {
+    case 'title':
+      return <IconPeople />;
+    case 'advertiser':
+      return <IconCompany />;
+    case 'employer':
+      return <IconCompany />;
+    case 'salary':
+      return <IconMoney />;
+    case 'location':
+      return <IconLocation />;
+    default:
+      return;
+  }
+};
 interface SuggestionItemProps {
   suggestion: Suggestion;
   highlighted: boolean;
@@ -139,12 +160,13 @@ function SuggestionItem({
         paddingX="small"
         paddingRight={onClear ? 'none' : undefined}
       >
+
         <Box
           className={useTouchableSpace('standard')}
           display="flex"
           alignItems="center"
         >
-          {suggestion.type ? <IconBookmark /> : <IconAdd />}
+          {getSuggtionIcon(suggestion)}
           <Text baseline={false}>
             {suggestionParts.map(({ highlight, text }, index) =>
               selected || highlight ? (
