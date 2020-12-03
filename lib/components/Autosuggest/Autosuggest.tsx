@@ -33,12 +33,10 @@ import { createAccessbilityProps, getItemId } from './createAccessbilityProps';
 import { autosuggest, AutosuggestTranslations } from '../../translations/en';
 
 import * as styleRefs from './Autosuggest.treat';
-import {
-  IconCompany,
-  IconLocation,
-  IconMoney,
-  IconPeople,
-} from '../icons';
+import { IconCompany, IconLocation, IconMoney, IconPeople } from '../icons';
+import { Columns } from '../Columns/Columns';
+import { Column } from '../Column/Column';
+import { Inline } from '../Inline/Inline';
 
 type SuggestionMatch = Array<{ start: number; end: number }>;
 
@@ -160,27 +158,35 @@ function SuggestionItem({
         paddingX="small"
         paddingRight={onClear ? 'none' : undefined}
       >
-
         <Box
           className={useTouchableSpace('standard')}
           display="flex"
-          alignItems="center"
+          // alignItems="center"
         >
-          {getSuggtionIcon(suggestion)}
-          <Text baseline={false}>
-            {suggestionParts.map(({ highlight, text }, index) =>
-              selected || highlight ? (
-                <Strong key={index}>{text}</Strong>
-              ) : (
-                <Fragment key={index}>{text}</Fragment>
-              ),
-            )}
-          </Text>
-          {suggestion.description ? (
-            <Text size="small" tone="secondary" baseline={false}>
-              {suggestion.description}
-            </Text>
-          ) : null}
+          <Columns alignY="center" space="medium">
+            <Column>
+              <Inline space="none" alignY="center">
+                {getSuggtionIcon(suggestion)}
+                <Text baseline={false}>
+                  {suggestionParts.map(({ highlight, text }, index) =>
+                    selected || highlight ? (
+                      <Strong key={index}>{text}</Strong>
+                    ) : (
+                      <Fragment key={index}>{text}</Fragment>
+                    ),
+                  )}
+                </Text>
+                {suggestion.description ? (
+                  <Text size="small" tone="secondary" baseline={false}>
+                    {suggestion.description}
+                  </Text>
+                ) : null}
+              </Inline>
+            </Column>
+            <Column width="content">
+              <Text tone="secondary">{`${suggestion.count} jobs`}</Text>
+            </Column>
+          </Columns>
         </Box>
         {typeof onClear === 'function' ? (
           <Box
