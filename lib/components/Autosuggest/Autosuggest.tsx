@@ -430,7 +430,7 @@ export const Autosuggest = forwardRef(function <Value>(
       case INPUT_BLUR: {
         return {
           ...state,
-          isOpen: true,
+          isOpen: false,
           previewValue: null,
           highlightedIndex: null,
           isFocused: false,
@@ -441,7 +441,7 @@ export const Autosuggest = forwardRef(function <Value>(
         if (value.text) {
           return {
             ...state,
-            isOpen: true,
+            isOpen: false,
             previewValue: null,
             highlightedIndex: null,
           };
