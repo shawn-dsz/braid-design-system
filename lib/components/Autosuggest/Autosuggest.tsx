@@ -11,6 +11,7 @@ import React, {
   Ref,
   ReactElement,
   RefAttributes,
+  ReactNode,
 } from 'react';
 import { useStyles } from 'sku/react-treat';
 import parseHighlights from 'autosuggest-highlight/parse';
@@ -33,7 +34,13 @@ import { createAccessbilityProps, getItemId } from './createAccessbilityProps';
 import { autosuggest, AutosuggestTranslations } from '../../translations/en';
 
 import * as styleRefs from './Autosuggest.treat';
-import { IconCompany, IconLocation, IconMoney, IconPeople } from '../icons';
+import {
+  IconCompany,
+  IconDate,
+  IconLocation,
+  IconMoney,
+  IconPeople,
+} from '../icons';
 import { Columns } from '../Columns/Columns';
 import { Column } from '../Column/Column';
 import { Inline } from '../Inline/Inline';
@@ -94,8 +101,15 @@ interface AutosuggestState<Value> {
   isFocused: boolean;
 }
 
-const getSuggtionIcon = ({ type = '' } = {}) => {
+const getSuggtionIcon = ({ type = '' } = {}, CustomIcon: ReactElement) => {
+  if (CustomIcon) {
+    return <CustomIcon />;
+  }
   switch (type) {
+    case 'location':
+      return <IconLocation />;
+    case 'keywords':
+      return <IconPeople />;
     case 'title':
       return <IconPeople />;
     case 'advertiser':
@@ -104,8 +118,8 @@ const getSuggtionIcon = ({ type = '' } = {}) => {
       return <IconCompany />;
     case 'salary':
       return <IconMoney />;
-    case 'location':
-      return <IconLocation />;
+    case 'createdAt':
+      return <IconDate />;
     default:
       return;
   }
@@ -124,7 +138,14 @@ function SuggestionItem({
   onHover,
   ...restProps
 }: SuggestionItemProps) {
-  const { highlights = [], onClear, clearLabel } = suggestion;
+  const {
+    highlights = [],
+    onClear,
+    clearLabel,
+    icon,
+    // count = 0,
+    description = '',
+  } = suggestion;
   const label = suggestion.label ?? suggestion.text;
 
   const suggestionParts = parseHighlights(
@@ -161,12 +182,12 @@ function SuggestionItem({
         <Box
           className={useTouchableSpace('standard')}
           display="flex"
-          // alignItems="center"
+          alignItems="center"
         >
           <Columns alignY="center" space="medium">
             <Column>
               <Inline space="none" alignY="center">
-                {getSuggtionIcon(suggestion)}
+                {getSuggtionIcon(suggestion, icon)}
                 <Text baseline={false}>
                   {suggestionParts.map(({ highlight, text }, index) =>
                     selected || highlight ? (
@@ -176,15 +197,14 @@ function SuggestionItem({
                     ),
                   )}
                 </Text>
-                {suggestion.description ? (
-                  <Text size="small" tone="secondary" baseline={false}>
-                    {suggestion.description}
-                  </Text>
-                ) : null}
               </Inline>
-            </Column>
-            <Column width="content">
-              <Text tone="secondary">{`${suggestion.count} jobs`}</Text>
+              {description ? (
+                <Box paddingLeft="medium">
+                  <Text size="small" tone="secondary" baseline={false}>
+                    {description}
+                  </Text>
+                </Box>
+              ) : null}
             </Column>
           </Columns>
         </Box>
