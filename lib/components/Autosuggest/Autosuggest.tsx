@@ -107,19 +107,19 @@ const getSuggtionIcon = ({ type = '' } = {}, CustomIcon: ReactElement) => {
   }
   switch (type) {
     case 'location':
-      return <IconLocation />;
+      return <IconLocation tone="secondary" />;
     case 'keywords':
-      return <IconPeople />;
+      return <IconPeople tone="secondary" />;
     case 'title':
-      return <IconPeople />;
+      return <IconPeople tone="secondary" />;
     case 'advertiser':
-      return <IconCompany />;
+      return <IconCompany tone="secondary" />;
     case 'employer':
-      return <IconCompany />;
+      return <IconCompany tone="secondary" />;
     case 'salary':
-      return <IconMoney />;
+      return <IconMoney tone="secondary" />;
     case 'createdAt':
-      return <IconDate />;
+      return <IconDate tone="secondary" />;
     default:
       return;
   }
@@ -185,21 +185,23 @@ function SuggestionItem({
           alignItems="center"
         >
           <Columns alignY="center" space="medium">
-            <Column>
+            <Column width="content">
               <Inline space="none" alignY="center">
                 {getSuggtionIcon(suggestion, icon)}
-                <Text baseline={false}>
-                  {suggestionParts.map(({ highlight, text }, index) =>
-                    selected || highlight ? (
-                      <Strong key={index}>{text}</Strong>
-                    ) : (
-                      <Fragment key={index}>{text}</Fragment>
-                    ),
-                  )}
-                </Text>
               </Inline>
+            </Column>
+            <Column>
+              <Text baseline={false}>
+                {suggestionParts.map(({ highlight, text }, index) =>
+                  selected || highlight ? (
+                    <Strong key={index}>{text}</Strong>
+                  ) : (
+                    <Fragment key={index}>{text}</Fragment>
+                  ),
+                )}
+              </Text>
               {description ? (
-                <Box paddingLeft="medium">
+                <Box>
                   <Text size="small" tone="secondary" baseline={false}>
                     {description}
                   </Text>
