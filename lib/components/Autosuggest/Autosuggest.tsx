@@ -34,13 +34,7 @@ import { createAccessbilityProps, getItemId } from './createAccessbilityProps';
 import { autosuggest, AutosuggestTranslations } from '../../translations/en';
 
 import * as styleRefs from './Autosuggest.treat';
-import {
-  IconCompany,
-  IconDate,
-  IconLocation,
-  IconMoney,
-  IconPeople,
-} from '../icons';
+
 import { Columns } from '../Columns/Columns';
 import { Column } from '../Column/Column';
 import { Inline } from '../Inline/Inline';
@@ -101,29 +95,6 @@ interface AutosuggestState<Value> {
   isFocused: boolean;
 }
 
-const getSuggtionIcon = ({ type = '' } = {}, CustomIcon: ReactElement) => {
-  if (CustomIcon) {
-    return <CustomIcon />;
-  }
-  switch (type) {
-    case 'location':
-      return <IconLocation tone="secondary" />;
-    case 'keywords':
-      return <IconPeople tone="secondary" />;
-    case 'title':
-      return <IconPeople tone="secondary" />;
-    case 'advertiser':
-      return <IconCompany tone="secondary" />;
-    case 'employer':
-      return <IconCompany tone="secondary" />;
-    case 'salary':
-      return <IconMoney tone="secondary" />;
-    case 'createdAt':
-      return <IconDate tone="secondary" />;
-    default:
-      return;
-  }
-};
 interface SuggestionItemProps {
   suggestion: Suggestion;
   highlighted: boolean;
@@ -186,9 +157,11 @@ function SuggestionItem({
         >
           <Columns alignY="center" space="medium">
             <Column width="content">
-              <Inline space="none" alignY="center">
-                {getSuggtionIcon(suggestion, icon)}
-              </Inline>
+              {icon ? (
+                <Inline space="none" alignY="center">
+                  {icon}
+                </Inline>
+              ) : null}
             </Column>
             <Column>
               <Text baseline={false}>
