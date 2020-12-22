@@ -42,6 +42,7 @@ type SuggestionMatch = Array<{ start: number; end: number }>;
 
 export interface AutosuggestValue<Value = any> {
   text: string;
+  icon?: ReactElement;
   description?: string;
   value?: Value;
 }
