@@ -11,7 +11,6 @@ import React, {
   Ref,
   ReactElement,
   RefAttributes,
-  ReactNode,
 } from 'react';
 import { useStyles } from 'sku/react-treat';
 import parseHighlights from 'autosuggest-highlight/parse';
@@ -114,7 +113,6 @@ function SuggestionItem({
     onClear,
     clearLabel,
     icon,
-    // count = 0,
     description = '',
   } = suggestion;
   const label = suggestion.label ?? suggestion.text;
